@@ -3,11 +3,13 @@ import { Category } from "../Types/Types";
 import AddCategoryComponent from "./AddCategory";
 import { useNavigate } from 'react-router-dom';
 import getName from "./GetProfileName";
+import GlobalProfile from "../Types/GlobalProfile";
+import Edit from './../../../../src/assets/component/EditCategory';
+import EditCategoryComponent from "./EditCategory";
 
 export default function CategoryComp() {
   // const [response, setResponse] = useState<string>("");
   // const [Component, setResponse] = useState<string>("");
-  getName()
   const [catResponse, setCatResponse] = useState<Category[]>([]);
   const [showAddComponent, setShowAddComponent] = useState<boolean>();
 
@@ -18,12 +20,40 @@ export default function CategoryComp() {
   async function LogOut() {
     localStorage.removeItem("token");
     alert("You have been logged out")
-    console.log(localStorage.getItem("token"));
+    // console.log(localStorage.getItem("token"));
     Navigate('/')
   }
   //getCategory
   //1.Function get Category
   //2. bikin table 
+
+  async function loadName() {
+    const token = localStorage.getItem("token")
+
+    const options = {
+      method: 'GET',
+      headers: {
+        'Authentication': 'Bearer ' + token
+      },
+    };
+    try {
+      const response = await fetch("https://library-crud-sample.vercel.app/api/user/profile", options);
+      // setIsError(false);
+      // setIsLoading(true);
+
+      if (!response.ok) {
+        throw new Error('Error fetching');
+      }
+
+      console.log("this is second step token", localStorage.getItem("token"))
+      const jsonData = await response.json();
+      const data = jsonData as GlobalProfile[] || [];
+      console.log(data);
+    } catch (error) {
+      console.log("This is in category", localStorage.getItem("token"))
+    }
+  }
+
 
   async function getCategory() {
 
@@ -52,7 +82,6 @@ export default function CategoryComp() {
 
 
   async function createCategory(data: Category) {
-    console.log("di create category", data), localStorage.getItem("token")
     const options = {
       method: 'POST',
       headers: {
@@ -88,9 +117,47 @@ export default function CategoryComp() {
     }
   }
 
-  async function updateCategory(data: Category) {
 
+  const EditCategory = (id:string)=>{
+    console.log(id);
+    Navigate(`/edit/${id}`)
   }
+  // async function updateCategory(data: Category) {
+  //   const options = {
+  //     method: 'PUT',
+  //     headers: {
+  //       'Content-Type': 'application/json',
+  //       'Authorization': 'Bearer ' + localStorage.getItem("token")
+  //     },
+
+  //     body: JSON.stringify(
+  //       {
+  //         "id": data.id,
+  //         "category_name": data.category_name,
+  //         "category_description": data.category_description,
+  //         "is_active": true
+  //       }
+  //     )
+  //   };
+  //   try {
+  //     const response = await fetch("https://library-crud-sample.vercel.app/api/category/update", options);
+
+  //     if (!response.ok) {
+  //       throw new Error('Error fetching');
+  //     }
+  //     const data = await response.json();
+  //     console.log(data)
+
+
+  //     setTimeout(() => {
+  //       setShowAddComponent(false);
+  //       alert("Category has successfully been Updated");
+  //       getCategory();
+  //     }, 1000);
+  //   } catch (error) {
+  //     console.log('Error:', error);
+  //   }
+  // }
 
   async function deleteCategory(id: string) {
     const token = localStorage.getItem("token");
@@ -119,10 +186,12 @@ export default function CategoryComp() {
     }
   }
   return (
-    <> <h1 >
-      Welcome back {name} !
-    </h1 >
+    // <> <h1 >
+    //   <button className="absolute right-0 h-12 w-16" onClick={loadName}>LoadName</button>
 
+    //   Welcome back  {localStorage.getItem("Name")}
+    // </h1 >
+    <>
       <div className="relative h-32 w-32 ...">
         <button className="absolute right-0 h-16 w-16" onClick={LogOut}>Log Out</button>
       </div>
@@ -153,7 +222,8 @@ export default function CategoryComp() {
               <td>{item.category_description}</td>
               <td>{String(item.is_active)}</td>
               <td>
-                <button className="btn btn-primary" onClick={() => updateCategory}>Edit</button >
+                <button className="btn btn-primary" onClick={()=>EditCategory(item.id)}>Edit</button >
+
                 <button className="btn btn-danger" onClick={() => deleteCategory(item.id)}>Delete</button>
               </td>
             </tr>
@@ -166,7 +236,7 @@ export default function CategoryComp() {
       </>
       {showAddComponent && (
         <>
-          <AddCategoryComponent onSubmit={createCategory} />
+          <EditCategoryComponent onSubmit={createCategory} />
         </>
       )}
     </>
