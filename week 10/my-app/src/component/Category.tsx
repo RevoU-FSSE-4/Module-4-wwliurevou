@@ -120,7 +120,7 @@ export default function CategoryComp() {
 
   const EditCategory = (id:string)=>{
     console.log(id);
-    Navigate(`/edit/${id}`)
+    Navigate(`/category/edit/${id}`)
   }
   // async function updateCategory(data: Category) {
   //   const options = {

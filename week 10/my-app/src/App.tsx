@@ -15,10 +15,10 @@ const App: React.FC = () => {
   return (
 
     <Routes>
-      <Route path="/" element={<Login />}/>
-      <Route path="/register" element={<Register />}/>
-      <Route path ="/category" element={<PrivateRoute/>}/>
-    <Route path='/edit/:id' element={<EditCategory/>}/>
+      <Route path="/" element={<Login />} />
+      <Route path="/register" element={<Register />} />
+      <Route path="/category" element={<PrivateRoute />} />
+      <Route path='/category/edit/:id' element={<EditCategory />} />
     </Routes >
 
 
