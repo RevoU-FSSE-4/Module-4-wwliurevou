@@ -1,7 +1,7 @@
 
 import { useState } from "react";
 
-import { Mid, Style, } from "../../Style/Style";
+import { Mid, Style, } from "../Style/Style";
 import { useNavigate } from 'react-router-dom';
 
 
@@ -18,9 +18,8 @@ import { useNavigate } from 'react-router-dom';
 // });
 
 
-export default function Register() {
+export default function Login() {
   const Navigate = useNavigate()
-  const [name, setName] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
 
@@ -28,8 +27,6 @@ export default function Register() {
 
   async function onSubmit(e: any) {
     e.preventDefault()
-
-
     const options = {
       method: 'POST',
       headers: {
@@ -38,14 +35,13 @@ export default function Register() {
 
       body: JSON.stringify(
         {
-          "name": name,
           "email": email,
           "password": password
         }
       )
     };
     try {
-      const response = await fetch("https://library-crud-sample.vercel.app/api/user/register", options);
+      const response = await fetch("https://library-crud-sample.vercel.app/api/user/login", options);
       // setIsError(false);
       // setIsLoading(true);
 
@@ -54,15 +50,17 @@ export default function Register() {
       }
       const data = await response.json();
       // Update component state with fetched data
-      console.log(data);
+      console.log(data.token);
+      const token = String(data.token);
+      localStorage.setItem("token", token);
 
 
       setTimeout(() => {
-        alert("Register is successful");
-        Navigate("/login");
+        alert("Login is successful");
+        Navigate("/category");
       }, 1000);
     } catch (error) {
-      console.log(error);
+      alert("Incorrect Email or Password");
     }
   }
 
@@ -78,26 +76,22 @@ export default function Register() {
     <div >
 
       <form onSubmit={onSubmit}>
-        <Style title=" Registration Information"></Style>
+        <Style title=" Login"></Style>
         <Mid>
-          <label htmlFor="name">Name</label>
-          <input name="name" onChange={(e) => setName(e.target.value)} type="text" />
-          {/* <ErrorMessage name="name" component="div"></ErrorMessage>
- */}
+
           <label htmlFor="email">Email Address</label>
           <input name="email" onChange={(e) => setEmail(e.target.value)} type="email" />
           {/* <ErrorMessage name="email" component="div"></ErrorMessage> */}
 
           <label htmlFor="password">Password</label>
-          <input name="password" onChange={(e) => setPassword(e.target.value)} type="password" />
+          <input name="password" onChange={(e) => setPassword(e.target.value)} type="current-password" />
 
         </Mid>
 
-        {/* <ErrorMessage name="name" component="div"></ErrorMessage>
-        <ErrorMessage name="email" component="div"></ErrorMessage>
-        <ErrorMessage name="password" component="div"></ErrorMessage> */}
+        <p className="form__hint">Don't have an account? <a className="form__link" href="/register">Register Here</a></p>
 
-        <button type="submit"> Submit </button>
+
+        <button type="submit"> Login </button>
 
       </form>
 

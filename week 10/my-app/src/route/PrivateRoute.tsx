@@ -1,14 +1,14 @@
-import React from 'react';
-import { Navigate } from 'react-router-dom';
+import React from "react";
 
-function useAuth() {
-  // This is a placeholder for your authentication logic.
-  // You should replace it with your actual authentication logic.
-  const user = { loggedIn: true }; // Example user object
-  return user && user.loggedIn;
-}
+import { Navigate, Outlet } from "react-router-dom";
+import Category from "../component/Category";
 
-export default function PrivateRoute({ children }) {
-  const isAuthenticated = useAuth();
-  return isAuthenticated ? children : <Navigate to="/login" />;
-}
+const PrivateRoute = () => {
+	// TODO: Use authentication token
+	const localStorageToken = localStorage.getItem("token");
+  console.log(localStorageToken)
+
+	return localStorageToken ? <Category /> : <Navigate to="/"  replace />;
+};
+
+export default PrivateRoute;

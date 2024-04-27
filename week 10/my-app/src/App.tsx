@@ -1,29 +1,25 @@
 
 import './App.css'
-import Login from './assets/component/Login'
-import Category from './assets/component/Category'
-import Register from './assets/component/Register'
+import Login from './component/Login'
+import Category from './component/Category'
+import Register from './component/Register'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 import PrivateRoute from './route/PrivateRoute'
 
 
 const App: React.FC = () => {
-  const isAuthenticated = false; // Set your authentication logic here
+  const isAuthenticated = "true"; // Set your authentication logic here
 
 
   return (
 
-    <Router>
-      <Routes>
-        <Route path="/" element={<Register />}></Route>
-        <Route path="/login" element={<Login />}></Route>
-        <Route path="/category" element={
-        <PrivateRoute>
-          <Category />
-          </PrivateRoute>}></Route>
+    <Routes>
+      <Route path="/" element={<Login />}/>
+      <Route path="/register" element={<Register />}/>
+      <Route path ="/category" element={<PrivateRoute/>}/>
 
-      </Routes>
-    </Router >
+    </Routes >
+
 
   )
 }

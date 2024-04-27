@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Category } from "../../Types/Types";
+import { Category } from "../Types/Types";
 
 export default function AddCategoryComponent(props: { onSubmit: (value: Category) => void }) {
   const [categoryName, setCategoryName] = useState<string>("");
@@ -7,6 +7,7 @@ export default function AddCategoryComponent(props: { onSubmit: (value: Category
 
 
   async function onSubmitCategory(e: any) {
+    e.preventDefault()
     const categoryData: Category = {
       id: "",
       category_name: categoryName,
@@ -14,7 +15,9 @@ export default function AddCategoryComponent(props: { onSubmit: (value: Category
       is_active: true,
     }
     props.onSubmit(categoryData);
-    console.log("sampe sini")
+    
+    const newCategory = String(categoryData);console.log("sampe sini",categoryData)
+    localStorage.setItem("newCategory", newCategory);
   }
 
   return (

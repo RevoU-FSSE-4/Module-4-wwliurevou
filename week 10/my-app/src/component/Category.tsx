@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
-import { Category } from "../../Types/Types";
+import { Category } from "../Types/Types";
 import AddCategoryComponent from "./AddCategory";
+import { useNavigate } from 'react-router-dom';
 
 export default function CategoryComp() {
   // const [response, setResponse] = useState<string>("");
@@ -9,13 +10,15 @@ export default function CategoryComp() {
   const [catResponse, setCatResponse] = useState<Category[]>([]);
   const [showAddComponent, setShowAddComponent] = useState<boolean>();
 
+  const Navigate = useNavigate();
+
   useEffect(() => { }, []);
 
-  async function logout() {
-    return (
-      <>
-      </>
-    )
+  async function LogOut() {
+    localStorage.removeItem("token");
+    alert("You have been logged out")
+    console.log(localStorage.getItem("token"));
+    Navigate('/')
   }
   //getCategory
   //1.Function get Category
@@ -46,8 +49,9 @@ export default function CategoryComp() {
     }
   }
 
-  async function createCategory(data: Category) {
 
+  async function createCategory(data: Category) {
+    console.log("di create category", data)
     const options = {
       method: 'POST',
       headers: {
@@ -63,10 +67,10 @@ export default function CategoryComp() {
         }
       )
     };
+
+
     try {
       const response = await fetch("https://library-crud-sample.vercel.app/api/category/create", options);
-      // setIsError(false);
-      // setIsLoading(true);
 
       if (!response.ok) {
         throw new Error('Error fetching');
@@ -74,11 +78,11 @@ export default function CategoryComp() {
       const data = await response.json();
       console.log(data)
 
+
       setTimeout(() => {
         setShowAddComponent(false);
         alert("Category has successfully been added");
         getCategory();
-        // Navigate("/login");
       }, 1000);
     } catch (error) {
       console.log('Error:', error);
@@ -117,8 +121,12 @@ export default function CategoryComp() {
   }
   return (
     <>
-      <button onClick={getCategory}>Load Category list</button>
+      <div className="relative h-32 w-32 ...">
+        <button className="absolute right-0 h-16 w-16" onClick={LogOut}>Log Out</button>
+      </div>
       <h1>Category List </h1>
+      <button onClick={getCategory}>Load Category list</button>
+
       <table className="min-w-full bg-white border border-gray-50" >
         <thead>
           <tr>

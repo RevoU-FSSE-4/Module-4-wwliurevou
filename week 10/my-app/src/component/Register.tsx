@@ -1,7 +1,7 @@
 
 import { useState } from "react";
 
-import { Mid, Style, } from "../../Style/Style";
+import { Mid, Style, } from "../Style/Style";
 import { useNavigate } from 'react-router-dom';
 
 
@@ -18,8 +18,9 @@ import { useNavigate } from 'react-router-dom';
 // });
 
 
-export default function Login() {
+export default function Register() {
   const Navigate = useNavigate()
+  const [name, setName] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
 
@@ -27,6 +28,8 @@ export default function Login() {
 
   async function onSubmit(e: any) {
     e.preventDefault()
+
+
     const options = {
       method: 'POST',
       headers: {
@@ -35,13 +38,14 @@ export default function Login() {
 
       body: JSON.stringify(
         {
+          "name": name,
           "email": email,
           "password": password
         }
       )
     };
     try {
-      const response = await fetch("https://library-crud-sample.vercel.app/api/user/login", options);
+      const response = await fetch("https://library-crud-sample.vercel.app/api/user/register", options);
       // setIsError(false);
       // setIsLoading(true);
 
@@ -50,18 +54,15 @@ export default function Login() {
       }
       const data = await response.json();
       // Update component state with fetched data
-      console.log(data.token);
-      const token = String(data.token);
-      localStorage.setItem("token", token);
-
+      console.log(data);
 
 
       setTimeout(() => {
-        alert("Login is successful");
-         Navigate("/category");
+        alert("Register is successful");
+        Navigate("/login");
       }, 1000);
     } catch (error) {
-      console.log("Incorrect Email or Password");
+      console.log(error);
     }
   }
 
@@ -77,19 +78,24 @@ export default function Login() {
     <div >
 
       <form onSubmit={onSubmit}>
-        <Style title=" Login"></Style>
+        <Style title=" Registration Information"></Style>
         <Mid>
-
+          <label htmlFor="name">Name</label>
+          <input name="name" onChange={(e) => setName(e.target.value)} type="text" />
+          {/* <ErrorMessage name="name" component="div"></ErrorMessage>
+ */}
           <label htmlFor="email">Email Address</label>
           <input name="email" onChange={(e) => setEmail(e.target.value)} type="email" />
           {/* <ErrorMessage name="email" component="div"></ErrorMessage> */}
 
           <label htmlFor="password">Password</label>
-          <input name="password" onChange={(e) => setPassword(e.target.value)} type="password" />
+          <input name="password" onChange={(e) => setPassword(e.target.value)} type="new-password" />
 
         </Mid>
 
-
+        {/* <ErrorMessage name="name" component="div"></ErrorMessage>
+        <ErrorMessage name="email" component="div"></ErrorMessage>
+        <ErrorMessage name="password" component="div"></ErrorMessage> */}
 
         <button type="submit"> Submit </button>
 
