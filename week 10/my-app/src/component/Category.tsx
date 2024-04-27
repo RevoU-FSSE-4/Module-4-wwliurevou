@@ -2,11 +2,12 @@ import { useEffect, useState } from "react";
 import { Category } from "../Types/Types";
 import AddCategoryComponent from "./AddCategory";
 import { useNavigate } from 'react-router-dom';
+import getName from "./GetProfileName";
 
 export default function CategoryComp() {
   // const [response, setResponse] = useState<string>("");
   // const [Component, setResponse] = useState<string>("");
-
+  getName()
   const [catResponse, setCatResponse] = useState<Category[]>([]);
   const [showAddComponent, setShowAddComponent] = useState<boolean>();
 
@@ -51,12 +52,12 @@ export default function CategoryComp() {
 
 
   async function createCategory(data: Category) {
-    console.log("di create category", data)
+    console.log("di create category", data), localStorage.getItem("token")
     const options = {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': 'Bearer' + localStorage.getItem("token")
+        'Authorization': 'Bearer ' + localStorage.getItem("token")
       },
 
       body: JSON.stringify(
@@ -67,8 +68,6 @@ export default function CategoryComp() {
         }
       )
     };
-
-
     try {
       const response = await fetch("https://library-crud-sample.vercel.app/api/category/create", options);
 
@@ -120,7 +119,10 @@ export default function CategoryComp() {
     }
   }
   return (
-    <>
+    <> <h1 >
+      Welcome back {name} !
+    </h1 >
+
       <div className="relative h-32 w-32 ...">
         <button className="absolute right-0 h-16 w-16" onClick={LogOut}>Log Out</button>
       </div>
