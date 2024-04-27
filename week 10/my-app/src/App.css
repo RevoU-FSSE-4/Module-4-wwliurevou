@@ -9,6 +9,13 @@
   text-align: center;
 }
 
+
+.error {
+  color: #fc8181;
+  font-size: 0.75rem;
+  text-align: left;
+  margin-top: 0.25rem;
+}
 .logo {
   height: 6em;
   padding: 1.5em;

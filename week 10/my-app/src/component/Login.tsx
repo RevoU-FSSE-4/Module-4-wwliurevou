@@ -80,11 +80,11 @@ export default function Login() {
         <Mid>
 
           <label htmlFor="email">Email Address</label>
-          <input name="email" onChange={(e) => setEmail(e.target.value)} type="email" />
+          <input name="email" onChange={(e) => setEmail(e.target.value)} type="email" required autoComplete="off"/>
           {/* <ErrorMessage name="email" component="div"></ErrorMessage> */}
 
           <label htmlFor="password">Password</label>
-          <input name="password" onChange={(e) => setPassword(e.target.value)} type="current-password" />
+          <input name="password" onChange={(e) => setPassword(e.target.value)} type="password" required autoComplete="on"/>
 
         </Mid>
 

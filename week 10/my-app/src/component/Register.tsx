@@ -81,15 +81,15 @@ export default function Register() {
         <Style title=" Registration Information"></Style>
         <Mid>
           <label htmlFor="name">Name</label>
-          <input name="name" onChange={(e) => setName(e.target.value)} type="text" />
+          <input name="name" onChange={(e) => setName(e.target.value)} type="text" required/>
           {/* <ErrorMessage name="name" component="div"></ErrorMessage>
  */}
           <label htmlFor="email">Email Address</label>
-          <input name="email" onChange={(e) => setEmail(e.target.value)} type="email" />
+          <input name="email" onChange={(e) => setEmail(e.target.value)} type="email" required/>
           {/* <ErrorMessage name="email" component="div"></ErrorMessage> */}
 
           <label htmlFor="password">Password</label>
-          <input name="password" onChange={(e) => setPassword(e.target.value)} type="new-password" />
+          <input name="password" onChange={(e) => setPassword(e.target.value)} type="password" autoComplete="off" required/>
 
         </Mid>
 
